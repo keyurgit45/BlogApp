@@ -1,0 +1,263 @@
+openapi: 3.0.0
+
+info:
+  title: Blog Api
+  description: A blog Api made using NodeJS, MongoDB, Express
+  version: 1.0.0
+  contact : 
+    email : keyur4tech123@gmail.com
+
+servers:
+  - url: http://localhost:4000/api/v1
+    description: LocalHost Server
+
+paths:
+  /signup:
+    post:
+      tags:
+        - User
+      summary: creates a user
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - name
+                - email
+                - password
+                - introduction
+                - photo
+              properties:
+                name: 
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                introduction:
+                  type: string
+                photo:
+                  type: file
+                  in: formData
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  token:
+                    type: string
+                  name: 
+                    type: string
+                  email:
+                    type: string
+                  photo:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      secure_url:
+                        type: string
+                  introduction:
+                    type: string
+                  followers:
+                    type: integer
+                  articles:
+                    type: array
+                    items: 
+                      type: string
+                  _id: 
+                    type: string
+                  
+        '400':
+          description: some parameter is missing
+        '401':
+          description: user is already regisetred
+
+  /login:
+    post:
+      tags:
+        - User
+      summary: user login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  token:
+                    type: string
+                  name: 
+                    type: string
+                  email:
+                    type: string
+                  photo:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      secure_url:
+                        type: string
+                  introduction:
+                    type: string
+                  followers:
+                    type: integer
+                  articles:
+                    type: array
+                    items: 
+                      type: string
+                  _id: 
+                    type: string
+                  
+        '400':
+          description: some parameter is missing
+        '401':
+          description: user is not regisetred or password did not match
+
+  /logout:
+    get:
+      tags:
+        - User
+      summary: user logout
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+  
+  /forgotpassword:
+    post:
+      tags:
+        - User
+      summary: forgot password route
+      description: paste the token in the password/reset route
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+              properties:
+                email:
+                  type: string
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  token:
+                    type: string
+                  url:
+                    type: string
+                  
+        '400':
+          description: email parameter is missing
+        '401':
+          description: user is not regisetred
+
+  /password/reset/{token}:
+    post:
+      tags:
+        - User
+      summary: resets the user password
+      parameters:
+        - name: token
+          in: path
+          required: true
+          description: Parameter token returned by forgotpassword route.
+          schema:
+            type : string
+            
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - password
+                - confirmPassword
+              properties:
+                password:
+                  type: string
+                confirmPassword:
+                  type: string
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  token:
+                    type: string
+                  name: 
+                    type: string
+                  email:
+                    type: string
+                  photo:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      secure_url:
+                        type: string
+                  introduction:
+                    type: string
+                  followers:
+                    type: integer
+                  articles:
+                    type: array
+                    items: 
+                      type: string
+                  _id: 
+                    type: string
+                  
+        '400':
+          description: some parameter is missing
+        '401':
+          description: token is invalid or expired
+
+  
+
+
+
+
+
