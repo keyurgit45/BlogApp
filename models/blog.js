@@ -20,13 +20,7 @@ const blogSchema = mongoose.Schema({
         maxlength: [150, 'description must be less than 150 chars']
     },
     likes: [
-        {
-            id: {
-                type: mongoose.Schema.ObjectId,
-                ref: "User",
-                required: true
-            },
-        }
+        String
     ],
     numberOfLikes: {
         type: Number,
@@ -34,12 +28,18 @@ const blogSchema = mongoose.Schema({
     },
     comments: [
         {
+            user: {
+                type: mongoose.Schema.ObjectId,
+                ref: "User",
+                required: true
+            },
             name: {
                 type: String, required: true
             },
             comment: {
                 type: String,
-                maxlength: [100, 'Comment must be less than 100 chars']
+                maxlength: [100, 'Comment must be less than 100 chars'],
+                required: true
             },
             createdAt: {
                 type: Date,

@@ -67,14 +67,14 @@ userSchema.methods.isValidPassword = async function (userPass) {
 
 userSchema.methods.getJWTToken = function () {
     return jwt.sign({ id: this._id }, process.env.SECRET_KEY,
-        { expiresIn: '3h' })
+        { expiresIn: process.env.JWTTOKEN_EXPIRY })
 }
 
 userSchema.methods.getForgotPasswordToken = function () {
     const forgotPassowrdToken = crypto.randomBytes(20).toString('hex')
     this.forgotPasswordToken = crypto.createHash('sha256').update(forgotPassowrdToken).digest('hex')
     
-    this.forgotPasswordExpiry = Date.now() +  30 * 60 * 1000
+    this.forgotPasswordExpiry = Date.now() +  process.env.FORGOTPASS_EXPIRY * 60 * 1000
 
     return forgotPassowrdToken
 }

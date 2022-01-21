@@ -256,8 +256,385 @@ paths:
           description: token is invalid or expired
 
   
+  /blog/new:
+    post:
+      tags:
+        - Blog
+      summary: creates a new blog
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+                - description
+                - content
+                - keywords
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                content:
+                  type: string
+                keywords:
+                  type: array
+                  items: 
+                    type: string
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  title:
+                    type: string
+                  description:
+                    type: string
+                  content:
+                    type: string
+                  keywords:
+                    type: array
+                    items: 
+                      type: string
+                  author:
+                    type: string
+                  name:
+                    type: string
+                  
+        '400':
+          description: some parameter is missing
 
+  /blog/myblogs:
+    get:
+      tags:
+        - Blog
+      summary: return all blogs written by logged in user
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  title:
+                    type: string
+                  description:
+                    type: string
+                  content:
+                    type: string
+                  keywords:
+                    type: array
+                    items: 
+                      type: string
+                  author:
+                    type: string
+                  name:
+                    type: string
+                  comments:
+                    type: array
+                    items:
+                      type: string
+                  numberOfLikes:
+                    type: integer
+                  
+        '400':
+          description: Blogs not found
+       
+  /blog/delete/{blogId}:
+    get:
+      tags:
+        - Blog
+      summary: delete a blog
+      parameters:
+        - name: blogId
+          in: path
+          required: true
+          description: blog id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  
+        '400':
+          description: blog parameter is missing
 
+  /blog/searchbytitle:
+    get:
+      tags:
+        - Blog
+      summary: search blogs by title
+      parameters:
+        - in: query
+          name: query
+          schema:
+            type: string
+          description: search using title of the blog
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                    description:
+                      type: string
+                    content:
+                      type: string
+                    keywords:
+                      type: array
+                      items: 
+                        type: string
+                    author:
+                      type: string
+                    name:
+                      type: string
+                    comments:
+                      type: array
+                      items:
+                        type: string
+                    numberOfLikes:
+                      type: integer
+                  
+        '400':
+          description: Blogs not found
 
+  /blog/searchbykeywords:
+    get:
+      tags:
+        - Blog
+      summary: search blogs by keywords
+      parameters:
+        - in: query
+          name: query
+          schema:
+            type: string
+          description: search by keywords (separate by comma ',')
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                    description:
+                      type: string
+                    content:
+                      type: string
+                    keywords:
+                      type: array
+                      items: 
+                        type: string
+                    author:
+                      type: string
+                    name:
+                      type: string
+                    comments:
+                      type: array
+                      items:
+                        type: string
+                    numberOfLikes:
+                      type: integer
+                  
+        '400':
+          description: Blogs not found
 
+  /blog/update/{id}:
+    post:
+      tags:
+        - Blog
+      summary:  updates existing blog
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+                - description
+                - content
+                - keywords
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                content:
+                  type: string
+                keywords:
+                  type: array
+                  items: 
+                    type: string
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  title:
+                    type: string
+                  description:
+                    type: string
+                  content:
+                    type: string
+                  keywords:
+                    type: array
+                    items: 
+                      type: string
+                  author:
+                    type: string
+                  name:
+                    type: string
+                  
+        '400':
+          description: some parameter is missing
 
+  /blog/searchbyuserid:
+    get:
+      tags:
+        - Blog
+      summary: search blogs by user id
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: string
+          description: search by user id
+          required: true
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                    description:
+                      type: string
+                    content:
+                      type: string
+                    keywords:
+                      type: array
+                      items: 
+                        type: string
+                    author:
+                      type: string
+                    name:
+                      type: string
+                    comments:
+                      type: array
+                      items:
+                        type: string
+                    numberOfLikes:
+                      type: integer
+                  
+        '400':
+          description: some parameter is missing
+        '401':
+          description: Blogs not found
+
+  /blog/like/{id}:
+    get:
+      tags:
+        - Blog
+      summary:  Like or unlike a blog
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  
+                  
+        '400':
+          description: some parameter is missing
+
+  /blog/comment/{id}:
+    post:
+      tags:
+        - Blog
+      summary:  post comment in blog
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - comment
+              properties:
+                comment:
+                  type: string
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  
+        '400':
+          description: some parameter is missing

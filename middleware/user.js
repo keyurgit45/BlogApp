@@ -4,7 +4,7 @@ const BigPromise = require('../utils/bigPromise')
 
 exports.isLoggedIn = BigPromise( async (req, res, next) => {
    
-    if(!req.header('Authorization') && !req.cookies) next(new Error("Token not found . Login first to access this Page."))
+    if(!req.header('Authorization') && !req.cookies.token) next(new Error("Token not found . Login first to access this Page."))
 
     const token = req.cookies.token || req.header('Authorization').replace("Bearer ", "")
 

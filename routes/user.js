@@ -1,6 +1,6 @@
 const express = require('express')
 const { register , login, logout , forgotPassowrd, resetPassword} = require('../controllers/userController')
-const { isLoggedIn } = require('../middleware/user')
+
 
 const router = express.Router()
 
